@@ -38,6 +38,10 @@ export namespace Check {
         Check.max(n, max, name);
     }
 
+    export function oneOf<T>(obj: T, options: Array<T>, name: string) {
+        if (!options.includes(obj)) throw new Error(`${name} must be one of ${options.toString()}`);
+    }
+
 }
 
 export namespace Model {
