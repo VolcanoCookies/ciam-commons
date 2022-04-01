@@ -1,11 +1,16 @@
 export namespace Check {
 
     export const objectIdRegex: RegExp = /[a-f0-9]{24}/;
+    export const discordIdRegex: RegExp = /\d{16,20}/;
     export const flagRegex: RegExp = /^(?:([a-z0-9]+|\?)(?:\.(?:[a-z0-9]+|\?))*(\.\*)?|\*)$/;
     export const strictFlagRegex: RegExp = /^[a-z0-9]+(\.[a-z0-9]+)*$/;
 
     export function objectId(id: string, message: string = 'Invalid objectId') {
         if (!id.match(objectIdRegex)) throw new Error(`${message} "${id}"`);
+    }
+
+    export function discordId(id: string, message: string = 'Invalid discordId') {
+        if (!id.match(discordIdRegex)) throw new Error(`${message} "${id}"`);
     }
 
     export function flag(flag: string, message: string = 'Invalid permission flag') {
