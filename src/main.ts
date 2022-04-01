@@ -83,4 +83,30 @@ export namespace Model {
         missing: Array<Flag> | undefined;
     }
 
+    // Our lord an savior Ash has come to bless us
+    export class Flag extends String {
+        isWildcard: boolean;
+        keys: Array<string>;
+
+        constructor(value: string) {
+            Check.flag(value);
+            super(value);
+
+            this.isWildcard = value == '*' || value.endsWith('.*');
+            this.keys = value.split('.');
+        }
+
+        public static validate(value: string | Flag): Flag {
+            if (!(value instanceof Flag)) {
+                return new Flag(value);
+            }
+            return value;
+        }
+
+        equals(other: Flag): boolean {
+            return this.toString() == other.toString();
+        }
+    }
+
+
 }
