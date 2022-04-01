@@ -21,8 +21,8 @@ export namespace Check {
         if (!flag.match(strictFlagRegex)) throw new Error(`${message} "${flag}"`);
     }
 
-    export function notEmpty(s: string, name: string) {
-        if (s.length == 0) throw new Error(`${name} cannot be empty`);
+    export function notEmpty(obj: string | Array<any>, name: string) {
+        if (obj.length == 0) throw new Error(`${name} cannot be empty`);
     }
 
     export function min(n: number, min: number, name: string) {
