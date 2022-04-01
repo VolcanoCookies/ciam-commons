@@ -20,6 +20,19 @@ export namespace Check {
         if (s.length == 0) throw new Error(`${name} cannot be empty`);
     }
 
+    export function min(n: number, min: number, name: string) {
+        if (n < min) throw new Error(`${name} cannot be less than ${min}`);
+    }
+
+    export function max(n: number, max: number, name: string) {
+        if (n > max) throw new Error(`${name} cannot be greater than ${max}`);
+    }
+
+    export function inRange(n: number, min: number, max: number, name: string) {
+        Check.min(n, min, name);
+        Check.max(n, max, name);
+    }
+
 }
 
 export namespace Model {
