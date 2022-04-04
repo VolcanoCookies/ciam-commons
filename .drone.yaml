@@ -1,0 +1,29 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+metadata:
+  namespace: drone
+
+pipeline:
+  npm_auth:
+    image: robertstettner/drone-npm-auth
+    secrets: [npm-username, npm-password, npm-email]
+
+steps:
+  - name: build
+    image: node:17
+    commands:
+      - npm install --include=dev
+      - npm install typescript -g
+      - tsc
+      - npm test
+
+  - name: update version
+    image: appleboy/drone-git-push
+    settings:
+      remote_name: origin
+      branch: dev
+      local_ref: dev
+      commit: true
+      commit_message: '[Drone] Bump version'
