@@ -1,3 +1,5 @@
+import { Flag } from '../permissions/Permission';
+
 export interface DiscordUser {
 	id: string;
 	name: string;
