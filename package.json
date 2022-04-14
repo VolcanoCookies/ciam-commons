@@ -1,6 +1,6 @@
 {
   "name": "ciam-commons",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Common types and functions for CIAM",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
