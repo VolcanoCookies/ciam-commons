@@ -1,5 +1,5 @@
 {
-	"name": "ciam-commons/checks",
+	"name": "checks",
 	"private": true,
 	"main": "../dist/checks/Check.js"
 }

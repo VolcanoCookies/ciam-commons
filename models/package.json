@@ -1,5 +1,5 @@
 {
-	"name": "ciam-commons/models",
+	"name": "models",
 	"private": true,
 	"main": "../dist/models/Model.js"
 }
