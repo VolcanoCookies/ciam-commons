@@ -1,16 +1,21 @@
 {
-  "name": "ciam-commons",
-  "version": "1.10.0",
-  "description": "Common types and functions for CIAM",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Volcano",
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.6.3"
-  },
-  "type": "module",
-  "main": "dist/main.js",
-  "types": "dist/main.d.ts"
+	"name": "ciam-commons",
+	"version": "1.10.0",
+	"description": "Common types and functions for CIAM",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Volcano",
+	"license": "ISC",
+	"devDependencies": {
+		"typescript": "^4.6.3"
+	},
+	"type": "module",
+	"files": [
+		"dist",
+		"models",
+		"checks",
+		"permissions",
+		"utils"
+	]
 }
