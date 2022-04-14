@@ -1,5 +1,5 @@
-import { flag } from './Check';
-import { unique } from './Utils';
+import { flag } from '../checks/Check';
+import { unique } from '../utils/Utils';
 
 export class PermissionError extends Error {
 	constructor(missing: Array<string> | Array<Flag> | undefined) {

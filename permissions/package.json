@@ -1,0 +1,5 @@
+{
+	"name": "ciam-commons/permissions",
+	"private": true,
+	"main": "../dist/permissions/Permission.js"
+}

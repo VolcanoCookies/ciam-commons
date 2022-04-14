@@ -1,0 +1,5 @@
+{
+	"name": "ciam-commons/utils",
+	"private": true,
+	"main": "../dist/utils/Utils.js"
+}
