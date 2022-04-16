@@ -2,9 +2,11 @@ import { flag } from '../checks/Check';
 import { unique } from '../utils/Utils';
 
 export class PermissionError extends Error {
+	missing: Array<Flag> | Array<String>;
 	constructor(missing: Array<string> | Array<Flag> | undefined) {
 		super(`Missing permissions: ${(missing || []).join(', ')}`);
 		this.name = 'PermissionError';
+		this.missing = missing || [];
 	}
 }
 
