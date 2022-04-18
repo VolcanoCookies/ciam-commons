@@ -17,5 +17,11 @@
 		"checks",
 		"permissions",
 		"utils"
-	]
+	],
+	"exports": {
+		"./checks/": "./dist/checks/Check.js",
+		"./permissions/": "./dist/permissions/Permission.js",
+		"./models/": "./dist/models/Model.js",
+		"./utils/": "./dist/utils/Utils.js"
+	}
 }
