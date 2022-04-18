@@ -1,5 +1,0 @@
-{
-	"name": "checks",
-	"private": true,
-	"main": "../dist/checks/Check.js"
-}

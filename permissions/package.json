@@ -1,5 +1,0 @@
-{
-	"name": "permissions",
-	"private": true,
-	"main": "../dist/permissions/Permission.js"
-}

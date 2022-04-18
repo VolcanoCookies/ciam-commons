@@ -1,4 +1,4 @@
-import { Flag } from '../permissions/Permission';
+import { Flag } from './Permission';
 
 export interface DiscordUser {
 	id: string;
