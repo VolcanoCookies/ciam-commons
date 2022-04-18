@@ -11,5 +11,8 @@
 		"typescript": "^4.6.3"
 	},
 	"type": "module",
-	"files": []
+	"files": [
+		"*.js",
+		"*.d.ts"
+	]
 }
