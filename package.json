@@ -12,7 +12,9 @@
 	},
 	"type": "module",
 	"files": [
-		"*.js",
-		"*.d.ts"
+		"checks",
+		"models",
+		"permissions",
+		"utils"
 	]
 }

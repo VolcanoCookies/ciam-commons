@@ -1,4 +1,4 @@
-import { flag } from './Check';
+import { flag } from './checks';
 import { unique } from './Utils';
 
 export class PermissionError extends Error {
