@@ -2,3 +2,8 @@ dist
 node_modules
 /*.js
 /*.d.ts
+
+checks
+models
+permissions
+utils
