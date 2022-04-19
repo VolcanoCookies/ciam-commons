@@ -1,5 +1,5 @@
-import { flag } from './checks';
-import { unique } from './Utils';
+import { flag } from '../checks';
+import { unique } from '../utils';
 
 export class PermissionError extends Error {
 	missing: Array<Flag> | Array<String>;
