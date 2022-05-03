@@ -44,6 +44,14 @@ export interface CheckRequest {
 	additional: Array<string>;
 	// If the response should include missing permissions, leave as false if you do not intent to use them
 	includeMissing: boolean;
+	// If we should take cooldowns into consideration
+	respectCooldown: boolean;
+	// If we should trigger new cooldowns
+	invokeCooldown: boolean;
+	// If we should take limits into consideration
+	respectLimit: boolean;
+	// If we should trigger new limits
+	invokeLimit: boolean;
 }
 
 // Represents a response from the API when checking permissions
@@ -55,6 +63,9 @@ export interface CheckResult {
 	 * the request then this field will have all the permissions the subject was missing, otherwise undefined/null
 	 */
 	missing: Array<Flag> | undefined;
+	// If the user had the correct permissions but is on cooldown
+	// Undefined if the request asked to ignore cooldowns
+	onCooldown: boolean | undefined;
 }
 
 export class PermissionError extends Error {
@@ -85,24 +96,54 @@ export function validFlag(perm: string): boolean {
 // Our lord an savior Ash has come to bless us
 export class Flag extends String {
 	isWildcard: boolean;
+	cooldown: number;
+	limit: number;
 	keys: Array<string>;
 
 	constructor(value: string) {
 		flag(value);
 		super(value);
 
-		this.isWildcard = value == '*' || value.endsWith('.*');
-		this.keys = value.split('.');
+		const parts = value.split(':');
+
+		this.isWildcard = parts[0] == '*' || parts[0].endsWith('.*');
+		this.keys = parts[0].split('.');
+		if (parts[1]) this.cooldown = parseInt(parts[1]);
+		else this.cooldown = 0;
+		if (parts[2]) this.limit = parseInt(parts[2]);
+		else this.limit = 0;
 	}
 
-	public static validate(value: string | Flag): Flag {
+	public static validate(value: string | Flag | StrictFlag): Flag {
 		if (!(value instanceof Flag)) {
-			return new Flag(value);
+			return new Flag(value as string);
 		}
 		return value;
 	}
 
-	equals(other: Flag): boolean {
+	equals(other: Flag | StrictFlag): boolean {
+		return this.toString() == other.toString();
+	}
+}
+
+export class StrictFlag extends String {
+	keys: Array<string>;
+
+	constructor(value: string) {
+		strictFlag(value);
+		super(value);
+
+		this.keys = value.split('.');
+	}
+
+	public static validate(value: string | Flag | StrictFlag): StrictFlag {
+		if (!(value instanceof StrictFlag)) {
+			return new StrictFlag(value as string);
+		}
+		return value;
+	}
+
+	equals(other: StrictFlag | Flag): boolean {
 		return this.toString() == other.toString();
 	}
 }
@@ -137,7 +178,7 @@ export function difference<T>(a: Array<T>, b: Array<T>): Array<T> {
 
 export const objectIdRegex: RegExp = /[a-f0-9]{24}/;
 export const discordIdRegex: RegExp = /\d{16,20}/;
-export const flagRegex: RegExp = /^(?:([a-z0-9]+|\?)(?:\.(?:[a-z0-9]+|\?))*(\.\*)?|\*)$/;
+export const flagRegex: RegExp = /^(?:([a-z0-9]+|\?)(?:\.(?:[a-z0-9]+|\?))*(\.\*)?|\*)(?::[0-9]+){0,2}?$/;
 export const strictFlagRegex: RegExp = /^[a-z0-9]+(\.[a-z0-9]+)*$/;
 
 export class CheckError extends Error {
