@@ -1,16 +1,38 @@
 {
-  "name": "ciam-commons",
-  "version": "1.7.0",
-  "description": "Common types and functions for CIAM",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Volcano",
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^4.6.3"
-  },
-  "type": "module",
-  "main": "dist/main.js",
-  "types": "dist/main.d.ts"
+	"name": "ciam-commons",
+	"version": "1.16.1",
+	"description": "Common types and functions for CIAM",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"lint": "eslint -c .eslintrc.cjs --ext .ts ./src",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm test && npm run lint",
+		"preversion": "npm run lint",
+		"version": "npm run format && git add -A src",
+		"postversion": "git push && git push --tags"
+	},
+	"author": "Volcano",
+	"license": "ISC",
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.23.0",
+		"@typescript-eslint/parser": "^5.23.0",
+		"eslint": "^8.15.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-jsdoc": "^39.2.9",
+		"eslint-plugin-prefer-arrow": "^1.2.3",
+		"prettier": "^2.6.2",
+		"typescript": "^4.6.3"
+	},
+	"type": "module",
+	"exports": [
+		"./index.js",
+		"./index.d.ts"
+	],
+	"files": [
+		"lib/**/*"
+	]
 }
