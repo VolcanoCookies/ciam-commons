@@ -1,13 +1,13 @@
 {
 	"name": "ciam-commons",
-	"version": "1.15.1",
+	"version": "1.16.0",
 	"description": "Common types and functions for CIAM",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc",
-		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+		"format": "prettier --write \"src/**/*.ts\"",
 		"lint": "eslint -c .eslintrc.cjs --ext .ts ./src",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm test && npm run lint",
