@@ -8,15 +8,15 @@ export interface User {
 	_id: string;
 	name: string;
 	discord: DiscordUser | undefined;
-	permissions: Array<string>;
-	roles: Array<string>;
+	permissions: string[];
+	roles: string[];
 }
 
 export interface Role {
 	_id: string;
 	name: string;
 	description: string;
-	permissions: Array<string>;
+	permissions: string[];
 }
 
 export interface Permission {
@@ -34,14 +34,14 @@ export interface CheckRequest {
 	// The id of the subject we will be checking permissions for
 	id: string;
 	// The required permissions to pass
-	required: Array<string>;
+	required: string[];
 	/**
 	 * Any additional permissions to give the subject while checking.
 	 * For example: If we specify ['*'] as additional permissions then all checks will always pass,
 	 * even if the subject does not have the required permissions. Because when they are checked,
 	 * the '*' flag is temporarily added to the subjects permissions.
 	 */
-	additional: Array<string>;
+	additional: string[];
 	// If the response should include missing permissions, leave as false if you do not intent to use them
 	includeMissing: boolean;
 	// If we should take cooldowns into consideration
@@ -62,15 +62,15 @@ export interface CheckResult {
 	 * If the user did not have any missing permissions, and the 'includeMissing' field was set to true in
 	 * the request then this field will have all the permissions the subject was missing, otherwise undefined/null
 	 */
-	missing: Array<Flag> | undefined;
+	missing: Flag[] | undefined;
 	// If the user had the correct permissions but is on cooldown
 	// Undefined if the request asked to ignore cooldowns
 	onCooldown: boolean | undefined;
 }
 
 export class PermissionError extends Error {
-	missing: Array<Flag> | Array<String>;
-	constructor(missing: Array<string> | Array<Flag> | undefined) {
+	missing: Flag[] | string[];
+	constructor(missing: string[] | Flag[] | undefined) {
 		super(`Missing permissions: ${(missing || []).join(', ')}`);
 		this.name = 'PermissionError';
 		this.missing = missing || [];
@@ -83,15 +83,15 @@ export class PermissionError extends Error {
  * @param perm a string to check.
  * @returns true if {@link perm} is a valid permission flag.
  */
-export function validFlag(perm: string): boolean {
-	if (perm.length == 0) return false;
+export const validFlag = (perm: string): boolean => {
+	if (perm.length === 0) return false;
 	try {
 		flag(perm);
 		return true;
 	} catch (err) {
 		return false;
 	}
-}
+};
 
 // Our lord an savior Ash has come to bless us
 export class Flag extends String {
@@ -100,7 +100,7 @@ export class Flag extends String {
 	hasCooldown: boolean;
 	limit: number;
 	hasLimit: boolean;
-	keys: Array<string>;
+	keys: string[];
 
 	constructor(value: string) {
 		flag(value);
@@ -108,12 +108,12 @@ export class Flag extends String {
 
 		const parts = value.split(':');
 
-		this.isWildcard = parts[0] == '*' || parts[0].endsWith('.*');
+		this.isWildcard = parts[0] === '*' || parts[0].endsWith('.*');
 		this.keys = parts[0].split('.');
-		if (parts[1]) this.cooldown = parseInt(parts[1]);
+		if (parts[1]) this.cooldown = parseInt(parts[1], 10);
 		else this.cooldown = 0;
 		this.hasCooldown = this.cooldown > 0;
-		if (parts[2]) this.limit = parseInt(parts[2]);
+		if (parts[2]) this.limit = parseInt(parts[2], 10);
 		else this.limit = 0;
 		this.hasLimit = this.limit > 0;
 	}
@@ -126,12 +126,12 @@ export class Flag extends String {
 	}
 
 	equals(other: Flag | StrictFlag): boolean {
-		return this.toString() == other.toString();
+		return this.toString() === other.toString();
 	}
 }
 
 export class StrictFlag extends String {
-	keys: Array<string>;
+	keys: string[];
 
 	constructor(value: string) {
 		strictFlag(value);
@@ -148,33 +148,35 @@ export class StrictFlag extends String {
 	}
 
 	equals(other: StrictFlag | Flag): boolean {
-		return this.toString() == other.toString();
+		return this.toString() === other.toString();
 	}
 }
 
-export function flagArray(
-	perms: Array<string | Flag>,
+export const flagArray = (
+	perms: (string | Flag)[],
 	ignoreInvalid: boolean = false,
 	removeDuplicate: boolean = true,
-): Array<Flag> {
+): Flag[] => {
 	const valid = new Array<Flag>();
 	for (const p of perms) {
 		if (ignoreInvalid) {
 			try {
 				valid.push(Flag.validate(p));
-			} catch (e) {}
+			} catch (e) {
+				// Do not throw errors when ignoring invalid flags
+			}
 		} else {
 			valid.push(Flag.validate(p));
 		}
 	}
 	return removeDuplicate ? unique(valid) : valid;
-}
+};
 
-export function unique<T>(arr: Array<T>): Array<T> {
+export const unique = <T>(arr: T[]): T[] => {
 	return arr.filter((v, i, a) => a.indexOf(v) === i);
-}
+};
 
-export function difference<T>(a: Array<T>, b: Array<T>): Array<T> {
+export const difference = <T>(a: T[], b: T[]): T[] => {
 	const arr = new Array<T>();
 	for (const e of a) {
 		if (!b.includes(e)) {
@@ -182,13 +184,13 @@ export function difference<T>(a: Array<T>, b: Array<T>): Array<T> {
 		}
 	}
 	return arr;
-}
+};
 
-export const objectIdRegex: RegExp = /[a-f0-9]{24}/;
-export const discordIdRegex: RegExp = /\d{16,20}/;
-export const flagRegex: RegExp =
+export const objectIdRegex = /[a-f0-9]{24}/;
+export const discordIdRegex = /\d{16,20}/;
+export const flagRegex =
 	/^(?:([a-z0-9]+|\?)(?:\.(?:[a-z0-9]+|\?))*(\.\*)?|\*)(?::[0-9]+){0,2}?$/;
-export const strictFlagRegex: RegExp = /^[a-z0-9]+(\.[a-z0-9]+)*$/;
+export const strictFlagRegex = /^[a-z0-9]+(\.[a-z0-9]+)*$/;
 
 export class CheckError extends Error {
 	constructor(message: string) {
@@ -197,52 +199,55 @@ export class CheckError extends Error {
 	}
 }
 
-export function objectId(id: string, message: string = 'Invalid objectId') {
+export const objectId = (id: string, message: string = 'Invalid objectId') => {
 	if (!id.match(objectIdRegex)) throw new CheckError(`${message} "${id}"`);
-}
+};
 
-export function discordId(id: string, message: string = 'Invalid discordId') {
+export const discordId = (
+	id: string,
+	message: string = 'Invalid discordId',
+) => {
 	if (!id.match(discordIdRegex)) throw new CheckError(`${message} "${id}"`);
-}
+};
 
-export function flag(
+export const flag = (
 	flag: string,
 	message: string = 'Invalid permission flag',
-) {
+) => {
 	if (!flag.match(flagRegex)) throw new CheckError(`${message} "${flag}"`);
-}
+};
 
-export function strictFlag(
+export const strictFlag = (
 	flag: string,
 	message: string = 'Invalid strict permission flag',
-) {
+) => {
 	if (!flag.match(strictFlagRegex))
 		throw new CheckError(`${message} "${flag}"`);
-}
+};
 
-export function notEmpty(obj: string | Array<any>, name: string) {
-	if (obj.length == 0) throw new CheckError(`${name} cannot be empty`);
-}
+export const notEmpty = (obj: string | any[], name: string) => {
+	if (obj.length === 0) throw new CheckError(`${name} cannot be empty`);
+};
 
-export function min(n: number, min: number, name: string) {
+export const min = (n: number, min: number, name: string) => {
 	if (n < min) throw new CheckError(`${name} cannot be less than ${min}`);
-}
+};
 
-export function max(n: number, max: number, name: string) {
+export const max = (n: number, max: number, name: string) => {
 	if (n > max) throw new CheckError(`${name} cannot be greater than ${max}`);
-}
+};
 
-export function inRange(
+export const inRange = (
 	n: number,
 	minVal: number,
 	maxVal: number,
 	name: string,
-) {
+) => {
 	min(n, minVal, name);
 	max(n, maxVal, name);
-}
+};
 
-export function oneOf<T>(obj: T, options: Array<T>, name: string) {
+export const oneOf = <T>(obj: T, options: T[], name: string) => {
 	if (!options.includes(obj))
 		throw new CheckError(`${name} must be one of ${options.toString()}`);
-}
+};
