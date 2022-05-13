@@ -2,8 +2,18 @@
 	"name": "ciam-commons",
 	"version": "1.15.1",
 	"description": "Common types and functions for CIAM",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+		"lint": "eslint -c .eslintrc.cjs --ext .ts ./src",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm test && npm run lint",
+		"preversion": "npm run lint",
+		"version": "npm run format && git add -A src",
+		"postversion": "git push && git push --tags"
 	},
 	"author": "Volcano",
 	"license": "ISC",
@@ -23,7 +33,6 @@
 		"./index.d.ts"
 	],
 	"files": [
-		"index.js",
-		"index.d.ts"
+		"lib/**/*"
 	]
 }
