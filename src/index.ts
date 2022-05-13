@@ -97,7 +97,9 @@ export function validFlag(perm: string): boolean {
 export class Flag extends String {
 	isWildcard: boolean;
 	cooldown: number;
+	hasCooldown: boolean;
 	limit: number;
+	hasLimit: boolean;
 	keys: Array<string>;
 
 	constructor(value: string) {
@@ -110,8 +112,10 @@ export class Flag extends String {
 		this.keys = parts[0].split('.');
 		if (parts[1]) this.cooldown = parseInt(parts[1]);
 		else this.cooldown = 0;
+		this.hasCooldown = this.cooldown > 0;
 		if (parts[2]) this.limit = parseInt(parts[2]);
 		else this.limit = 0;
+		this.hasLimit = this.limit > 0;
 	}
 
 	public static validate(value: string | Flag | StrictFlag): Flag {
