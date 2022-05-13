@@ -1,9 +1,2 @@
-dist
+/lib
 node_modules
-/*.js
-/*.d.ts
-
-checks
-models
-permissions
-utils
