@@ -1,13 +1,13 @@
 export interface DiscordUser {
 	id: string;
-	name: string;
-	discriminator: number;
+	name?: string;
+	discriminator?: number;
 }
 
 export interface User {
 	_id: string;
 	name: string;
-	discord: DiscordUser | undefined;
+	discord?: DiscordUser;
 	permissions: string[];
 	roles: string[];
 }
