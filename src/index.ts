@@ -34,14 +34,14 @@ export interface CheckRequest {
 	// The id of the subject we will be checking permissions for
 	id: string;
 	// The required permissions to pass
-	required: string[];
+	required: StrictFlag[];
 	/**
 	 * Any additional permissions to give the subject while checking.
 	 * For example: If we specify ['*'] as additional permissions then all checks will always pass,
 	 * even if the subject does not have the required permissions. Because when they are checked,
 	 * the '*' flag is temporarily added to the subjects permissions.
 	 */
-	additional: string[];
+	additional: Flag[];
 	// If the response should include missing permissions, leave as false if you do not intent to use them
 	includeMissing: boolean;
 	// If we should take cooldowns into consideration
