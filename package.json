@@ -2,8 +2,8 @@
 	"name": "ciam-commons",
 	"version": "1.18.1",
 	"description": "Common types and functions for CIAM",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
+	"main": "./lib/index.js",
+	"types": "./lib/index.d.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\"",
 		"build": "tsc",
