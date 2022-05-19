@@ -56,7 +56,7 @@ export interface CheckRequest {
 
 // Represents a response from the API when checking permissions
 export interface CheckResult {
-	// If the subject had all the required permissions
+	// If the subject had all the required permissions, and is not on cooldown.
 	passed: boolean;
 	/**
 	 * If the user did not have any missing permissions, and the 'includeMissing' field was set to true in
@@ -66,6 +66,8 @@ export interface CheckResult {
 	// If the user had the correct permissions but is on cooldown
 	// Undefined if the request asked to ignore cooldowns
 	onCooldown: boolean | undefined;
+	// Time in milliseconds since epoch when the cooldown expires
+	cooldownExpires: number | undefined;
 }
 
 export class PermissionError extends Error {
