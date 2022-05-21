@@ -56,11 +56,13 @@ export interface CheckRequest {
 
 // Represents the result of checking a single permission
 export interface CheckResult {
+	// The flag the check was made on.
+	flag: Flag;
 	// If the subject had all the required permissions, and is not on cooldown.
 	passed: boolean;
-	// If the user had the correct permission but is on cooldown
+	// If the user had the correct permission but is on cooldown.
 	onCooldown: boolean | undefined;
-	// Time in milliseconds since epoch when the cooldown expires
+	// Time in milliseconds since epoch when the cooldown expires.
 	cooldownExpires: number | undefined;
 }
 
