@@ -27,12 +27,37 @@ export interface Permission {
 	flag: string;
 }
 
+export const isPermissionHolder = (
+	value: unknown,
+): value is PermissionHolder => {
+	const holder = value as PermissionHolder;
+	if (typeof holder.type !== 'number') return false;
+	if (typeof holder.id !== 'string') return false;
+	return true;
+};
+
+export enum PermissionHolderType {
+	USER,
+	ROLE,
+	DISCORD_USER,
+	DISCORD_ROLE,
+}
+
+export interface PermissionHolder {
+	id: string;
+	type: PermissionHolderType;
+}
+
+export const permissionHolderInvocationId = (
+	holder: PermissionHolder,
+): string => {
+	return `${holder.id}-${holder.type}`;
+};
+
 // Represents a request to check permissions
 export interface CheckRequest {
-	// What the id field refers to
-	type: 'user' | 'role' | 'discordUser';
-	// The id of the subject we will be checking permissions for
-	id: string;
+	// Entity to check permissions on
+	holder: PermissionHolder;
 	// The required permissions to pass
 	required: Flag[];
 	/**
@@ -42,16 +67,6 @@ export interface CheckRequest {
 	 * the '*' flag is temporarily added to the subjects permissions.
 	 */
 	additional: Flag[];
-	// If the response should include missing permissions, leave as false if you do not intent to use them
-	includeMissing: boolean;
-	// If we should take cooldowns into consideration
-	respectCooldown: boolean;
-	// If we should trigger new cooldowns
-	invokeCooldown: boolean;
-	// If we should take limits into consideration
-	respectLimit: boolean;
-	// If we should trigger new limits
-	invokeLimit: boolean;
 }
 
 // Represents the result of checking a single permission
