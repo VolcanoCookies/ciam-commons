@@ -54,17 +54,11 @@ export interface CheckRequest {
 	invokeLimit: boolean;
 }
 
-// Represents a response from the API when checking permissions
+// Represents the result of checking a single permission
 export interface CheckResult {
 	// If the subject had all the required permissions, and is not on cooldown.
 	passed: boolean;
-	/**
-	 * If the user did not have any missing permissions, and the 'includeMissing' field was set to true in
-	 * the request then this field will have all the permissions the subject was missing, otherwise undefined/null
-	 */
-	missing: Flag[] | undefined;
-	// If the user had the correct permissions but is on cooldown
-	// Undefined if the request asked to ignore cooldowns
+	// If the user had the correct permission but is on cooldown
 	onCooldown: boolean | undefined;
 	// Time in milliseconds since epoch when the cooldown expires
 	cooldownExpires: number | undefined;
