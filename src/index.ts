@@ -43,10 +43,31 @@ export enum PermissionHolderType {
 	DISCORD_ROLE,
 }
 
-export interface PermissionHolder {
+export interface UserPermissionHolder {
 	id: string;
-	type: PermissionHolderType;
+	type: PermissionHolderType.USER;
 }
+
+export interface DiscordUserPermissionHolder {
+	id: string;
+	type: PermissionHolderType.DISCORD_USER;
+}
+
+export interface RolePermissionHolder {
+	id: string;
+	type: PermissionHolderType.ROLE;
+}
+
+export interface DiscordRolePermissionHolder {
+	id: string;
+	type: PermissionHolderType.DISCORD_ROLE;
+}
+
+export type PermissionHolder =
+	| UserPermissionHolder
+	| DiscordUserPermissionHolder
+	| RolePermissionHolder
+	| DiscordRolePermissionHolder;
 
 export const permissionHolderInvocationId = (
 	holder: PermissionHolder,
