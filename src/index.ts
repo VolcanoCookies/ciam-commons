@@ -128,7 +128,9 @@ export const validFlag = (perm: string): boolean => {
 };
 
 // Our lord an savior Ash has come to bless us
-export class Flag extends String {
+// Thanks for the help❤️
+export class Flag {
+	value: string;
 	isWildcard: boolean;
 	cooldown: number;
 	hasCooldown: boolean;
@@ -138,7 +140,8 @@ export class Flag extends String {
 
 	constructor(value: string) {
 		flag(value);
-		super(value);
+
+		this.value = value;
 
 		const parts = value.split(':');
 
@@ -161,6 +164,10 @@ export class Flag extends String {
 
 	equals(other: Flag | StrictFlag): boolean {
 		return this.toString() === other.toString();
+	}
+
+	public toString(): string {
+		return this.value;
 	}
 }
 
