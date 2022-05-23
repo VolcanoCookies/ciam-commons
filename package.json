@@ -1,6 +1,6 @@
 {
 	"name": "ciam-commons",
-	"version": "1.23.0",
+	"version": "1.23.1",
 	"description": "Common types and functions for CIAM",
 	"main": "./lib/index.js",
 	"types": "./lib/index.d.ts",
