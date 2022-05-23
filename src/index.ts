@@ -170,7 +170,7 @@ export class Flag {
 		return this.value;
 	}
 
-	public toJson(): string {
+	public toJSON(): string {
 		return this.value;
 	}
 }
