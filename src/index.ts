@@ -169,6 +169,10 @@ export class Flag {
 	public toString(): string {
 		return this.value;
 	}
+
+	public toJson(): string {
+		return this.value;
+	}
 }
 
 export class StrictFlag extends String {
