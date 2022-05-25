@@ -131,6 +131,7 @@ export const validFlag = (perm: string): boolean => {
 // Thanks for the help❤️
 export class Flag {
 	value: string;
+	length: number;
 	isWildcard: boolean;
 	cooldown: number;
 	hasCooldown: boolean;
@@ -142,6 +143,7 @@ export class Flag {
 		flag(value);
 
 		this.value = value;
+		this.length = value.length;
 
 		const parts = value.split(':');
 
@@ -163,7 +165,7 @@ export class Flag {
 	}
 
 	equals(other: Flag | StrictFlag): boolean {
-		return this.toString() === other.toString();
+		return this.value === other.value;
 	}
 
 	public toString(): string {
@@ -175,25 +177,36 @@ export class Flag {
 	}
 }
 
-export class StrictFlag extends String {
+export class StrictFlag {
+	value: string;
+	length: number;
+
 	keys: string[];
 
 	constructor(value: string) {
 		strictFlag(value);
-		super(value);
 
+		this.value = value;
+		this.length = value.length;
 		this.keys = value.split('.');
 	}
 
 	public static validate(value: string | Flag | StrictFlag): StrictFlag {
-		if (!(value instanceof StrictFlag)) {
-			return new StrictFlag(value as string);
-		}
-		return value;
+		if (value instanceof Flag) return new StrictFlag(value.value);
+		else if (value instanceof StrictFlag) return value;
+		else return new StrictFlag(value);
 	}
 
-	equals(other: StrictFlag | Flag): boolean {
-		return this.toString() === other.toString();
+	equals(other: Flag | StrictFlag): boolean {
+		return this.value === other.value;
+	}
+
+	public toString(): string {
+		return this.value;
+	}
+
+	public toJSON(): string {
+		return this.value;
 	}
 }
 
